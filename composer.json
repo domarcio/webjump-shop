@@ -1,0 +1,19 @@
+{
+    "name": "domarcio/webjump-shop",
+    "description": "A simple application to save Products and Categories.",
+    "type": "project",
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Marcio Vinicius",
+            "email": "marciovinicius55@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "doctrine/orm": "2.6.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    }
+}
