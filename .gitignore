@@ -1,6 +1,8 @@
 # Folders
 /vendor/
 /.vscode/
+/data/cache/
+/public/tests/
 
 # Files
 *~
