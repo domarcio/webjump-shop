@@ -16,7 +16,7 @@ use Nogues\Category\Entity\Category;
  * @package Nogues\Category\Repository
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-interface CategoryInterface
+interface CategoryRepositoryInterface
 {
     /**
      * Find one category by ID.

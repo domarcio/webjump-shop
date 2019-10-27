@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Nogues\Category\Repository;
 
 use Doctrine\ORM\EntityManager;
-use Nogues\Category\Repository\Category as CategoryRepository;
+use Nogues\Category\Repository\CategoryRepository;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -18,7 +18,7 @@ use Psr\Container\ContainerInterface;
  * @package Nogues\Category\Repository
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-final class CategoryFactory
+final class CategoryRepositoryFactory
 {
     public function __invoke(ContainerInterface $container): CategoryRepository
     {

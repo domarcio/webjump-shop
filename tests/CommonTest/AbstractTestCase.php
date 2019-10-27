@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Nogues\Test\CommonTest;
 
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\Driver\YamlDriver;
@@ -23,7 +24,13 @@ abstract class AbstractTestCase extends TestCase
         $doctrine = new Configuration();
         $doctrine->setProxyDir(__DIR__ . '/../../data/cache/TestEntityProxy/');
         $doctrine->setProxyNamespace('TestEntityProxy');
-        $doctrine->setAutoGenerateProxyClasses(false);
+        $doctrine->setAutoGenerateProxyClasses(true);
+
+        // Cache
+        $cache = new ArrayCache();
+        $doctrine->setQueryCacheImpl($cache);
+        $doctrine->setResultCacheImpl($cache);
+        $doctrine->setMetadataCacheImpl($cache);
 
         // ORM Mapping by YAML
         $driver = new YamlDriver(__DIR__ . '/../../mapping/');

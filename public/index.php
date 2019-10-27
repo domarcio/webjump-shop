@@ -20,9 +20,4 @@ require 'vendor/autoload.php';
 (function () {
     /** @var \Psr\Container\ContainerInterface $container */
     $container = require 'config/container.php';
-
-    $entityManager = $container->get(Doctrine\ORM\EntityManager::class);
-
-    $categoryRepository = $entityManager->getRepository(Nogues\Category\Entity\Category::class);
-    var_dump($categoryRepository->findAll());
 })();

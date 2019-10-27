@@ -9,17 +9,17 @@ declare(strict_types=1);
 namespace Nogues\Test\CategoryTest\Repository;
 
 use Nogues\Category\Repository\{
-    Category as CategoryRepository,
-    CategoryFactory
+    CategoryRepository,
+    CategoryRepositoryFactory
 };
 use Nogues\Test\CommonTest\AbstractTestCase;
 
-final class CategoryFactoryTest extends AbstractTestCase
+final class CategoryRepositoryFactoryTest extends AbstractTestCase
 {
     public function testIfFactoryCreatedSuccessfully()
     {
         $container  = $this->getEntityManager();
-        $factory    = new CategoryFactory();
+        $factory    = new CategoryRepositoryFactory();
         $repository = $factory($container->reveal(), null, get_class($container->reveal()));
 
         $this->assertInstanceOf(CategoryRepository::class, $repository);

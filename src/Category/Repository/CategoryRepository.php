@@ -20,7 +20,7 @@ use Nogues\Category\Entity\Category as CategoryEntity;
  * @package Nogues\Category\Repository
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-final class Category implements CategoryInterface
+final class CategoryRepository implements CategoryRepositoryInterface
 {
     /**
      * Entity Manager.
@@ -51,7 +51,8 @@ final class Category implements CategoryInterface
      */
     public function find(int $id): CategoryEntity
     {
-        $entity = $this->entityManager->find($this->entityName, $id);
+        $repository = $this->entityManager->getRepository($this->entityName);
+        $entity     = $repository->find($id);
         return $entity ?: new CategoryEntity();
     }
 

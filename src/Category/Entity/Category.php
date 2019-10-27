@@ -14,7 +14,7 @@ namespace Nogues\Category\Entity;
  * @package Nogues\Category\Entity
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-final class Category
+class Category
 {
     /**
      * Primary Key ID.
@@ -31,11 +31,18 @@ final class Category
     private $name;
 
     /**
-     * Category parent ID.
+     * Parent category.
      *
-     * @var int
+     * @var self
      */
-    private $parentId;
+    private $parent;
+
+    /**
+     * Children categories.
+     *
+     * @var \Doctrine\ORM\PersistentCollection
+     */
+    private $children;
 
     public function getId(): ?int
     {
@@ -52,13 +59,18 @@ final class Category
         $this->name = $name;
     }
 
-    public function getParentId(): ?int
+    public function getParent(): self
     {
-        return $this->parentId;
+        return $this->parent;
     }
 
-    public function setParentId(int $parentId): void
+    public function setParent(self $parent): void
     {
-        $this->parentId = $parentId;
+        $this->parent = $parent;
+    }
+
+    public function getChildren(): ?\Doctrine\ORM\PersistentCollection
+    {
+        return $this->children;
     }
 }

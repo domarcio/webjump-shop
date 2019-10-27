@@ -15,11 +15,11 @@ Nogues\Category\Entity\Category:
       type: string
       length: 255
       nullable: false
-    parentId:
-      column: parent_id
-      type: integer
-      length: 11
-      nullable: true
-      options:
-        unsigned: true
-        default: 0
+  oneToMany:
+    children:
+      targetEntity: Nogues\Category\Entity\Category
+      mappedBy: parent
+  manyToOne:
+    parent:
+      targetEntity: Nogues\Category\Entity\Category
+      inversedBy: children
