@@ -83,4 +83,14 @@ final class CategoryServiceTest extends AbstractTestCase
         $categories = $this->service->findAll();
         $this->assertCount(2, $categories);
     }
+
+    public function testFindById()
+    {
+        $tmpEntity = new CategoryEntity();
+        $tmpEntity->setName('Foo');
+        $this->service->store($tmpEntity);
+
+        $entity = $this->service->findById(1);
+        $this->assertEquals(1, $entity->getId());
+    }
 }

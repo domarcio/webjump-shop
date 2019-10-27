@@ -53,4 +53,16 @@ final class CategoryService
     {
         return $this->repository->findAll();
     }
+
+    /**
+     * Find one category.
+     *
+     * @param int $id
+     *
+     * @return Nogues\Category\Entity\Category
+     */
+    public function findById(int $id): Category
+    {
+        return $this->repository->find($id);
+    }
 }
