@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS shop;
 CREATE DATABASE shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE shop_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE shop.product (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -16,7 +17,7 @@ CREATE TABLE shop.product (
 CREATE TABLE shop.category (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
-    parent_id INT(11) DEFAULT 0,
+    parent_id INT(11) NOT NULL DEFAULT 0,
     INDEX parent_id_idx (parent_id)
 ) ENGINE=InnoDB;
 
