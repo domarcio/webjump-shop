@@ -1,19 +1,27 @@
 <?php
+/**
+ * Web Jump - Shop.
+ * This file is part of the Nogues shop.
+ */
 
 declare(strict_types=1);
 
 namespace Nogues\Common\Container;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Mapping\Driver\YamlDriver;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 
 use Interop\Container\ContainerInterface;
 
+/**
+ * Factory for create a Doctrine configurations.
+ *
+ * @package Nogues\Common\Container
+ * @author  Marcio Vinicius <marciovinicius55@gmail.com>
+ */
 final class DoctrineFactory
 {
     public function __invoke(ContainerInterface $container)
@@ -36,12 +44,8 @@ final class DoctrineFactory
             $doctrine->setNamingStrategy(new UnderscoreNamingStrategy());
         }
 
-        // ORM mapping by Annotation
-        AnnotationRegistry::registerFile('vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
-        $driver = new AnnotationDriver(
-            new AnnotationReader(),
-            $config['doctrine']['annotation']['metadata']
-        );
+        // ORM Mapping by YAML
+        $driver = new YamlDriver($config['doctrine']['annotation']['metadata']);
         $doctrine->setMetadataDriverImpl($driver);
 
         // Cache

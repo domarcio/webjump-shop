@@ -1,0 +1,25 @@
+Nogues\Category\Entity\Category:
+  type: entity
+  table: category
+  readOnly: false
+  indexes:
+    parent_id_idx:
+      columns: [parent_id]
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 255
+      nullable: false
+    parentId:
+      column: parent_id
+      type: integer
+      length: 11
+      nullable: true
+      options:
+        unsigned: true
+        default: 0
