@@ -41,7 +41,7 @@
   <main class="content">
     <div class="header-list-page">
       <h1 class="title">Categories</h1>
-      <a href="addCategory.html" class="btn-action">Add new Category</a>
+      <a href="/?handler=category&action=add" class="btn-action">Add new Category</a>
     </div>
     <table class="data-grid">
       <tr class="data-row">

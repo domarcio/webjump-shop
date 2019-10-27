@@ -56,7 +56,7 @@
         </select>
       </div>
       <div class="actions-form">
-        <a href="categories.html" class="action back">Back</a>
+        <a href="/?handler=category&action=list" class="action back">Back</a>
         <input class="btn-submit btn-action"  type="submit" value="Save" />
       </div>
     </form>
