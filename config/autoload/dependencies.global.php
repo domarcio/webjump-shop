@@ -14,7 +14,8 @@ return [
             Doctrine\ORM\EntityManager::class  => Nogues\Common\Container\DoctrineFactory::class,
 
             // Category app factories
-            Nogues\Category\Repository\Category::class => Nogues\Category\Repository\CategoryFactory::class
+            Nogues\Category\Repository\CategoryRepository::class  => Nogues\Category\Repository\CategoryRepositoryFactory::class,
+            Nogues\Category\Service\CategoryService::class        => Nogues\Category\Service\CategoryServiceFactory::class
         ],
     ],
 ];

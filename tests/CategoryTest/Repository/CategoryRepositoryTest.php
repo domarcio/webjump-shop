@@ -15,7 +15,7 @@ use Nogues\Category\Entity\Category as CategoryEntity;
 
 use Nogues\Test\CommonTest\AbstractTestCase;
 
-final class CategoryTest extends AbstractTestCase
+final class CategoryRepositoryTest extends AbstractTestCase
 {
     private $repository;
 

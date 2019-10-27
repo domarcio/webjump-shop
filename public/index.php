@@ -20,4 +20,14 @@ require 'vendor/autoload.php';
 (function () {
     /** @var \Psr\Container\ContainerInterface $container */
     $container = require 'config/container.php';
+
+    $handler = filter_input(INPUT_GET, 'handler', FILTER_SANITIZE_STRING);
+    $action  = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+
+    $fileHandler = 'routes/' . $handler . '.php';
+    if (! file_exists($fileHandler)) {
+        throw new Exception('Handler does not exists.');
+    }
+
+    require $fileHandler;
 })();
