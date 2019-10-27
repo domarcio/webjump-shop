@@ -46,40 +46,29 @@
     <table class="data-grid">
       <tr class="data-row">
         <th class="data-grid-th">
+            <span class="data-grid-cell-content">Code</span>
+        </th>
+        <th class="data-grid-th">
             <span class="data-grid-cell-content">Name</span>
         </th>
         <th class="data-grid-th">
-            <span class="data-grid-cell-content">Code</span>
+            <span class="data-grid-cell-content">Parent</span>
         </th>
         <th class="data-grid-th">
             <span class="data-grid-cell-content">Actions</span>
         </th>
       </tr>
       <tr class="data-row">
+        <?php foreach ($categories as $category) { ?>
         <td class="data-grid-td">
-           <span class="data-grid-cell-content">Category 1 Name</span>
+           <span class="data-grid-cell-content"><?php echo $category->getId(); ?></span>
         </td>
-      
         <td class="data-grid-td">
-           <span class="data-grid-cell-content">Category 1 Code</span>
+           <span class="data-grid-cell-content"><?php echo $category->getName(); ?></span>
         </td>
-      
         <td class="data-grid-td">
-          <div class="actions">
-            <div class="action edit"><span>Edit</span></div>
-            <div class="action delete"><span>Delete</span></div>
-          </div>
-        </td>
-      </tr>
-      <tr class="data-row">
-        <td class="data-grid-td">
-           <span class="data-grid-cell-content">Category 2 Name</span>
-        </td>
-      
-        <td class="data-grid-td">
-           <span class="data-grid-cell-content">Category 2 Code</span>
-        </td>
-      
+           <span class="data-grid-cell-content"><?php echo $category->getParent()->getName(); ?></span>
+        </td>  
         <td class="data-grid-td">
           <div class="actions">
             <div class="action edit"><span>Edit</span></div>
@@ -87,6 +76,7 @@
           </div>
         </td>
       </tr>
+        <?php } ?>
     </table>
   </main>
   <!-- Main Content -->

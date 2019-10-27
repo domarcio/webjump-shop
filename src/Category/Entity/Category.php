@@ -61,7 +61,7 @@ class Category
 
     public function getParent(): self
     {
-        return $this->parent;
+        return $this->parent ?: new self();
     }
 
     public function setParent(self $parent): void

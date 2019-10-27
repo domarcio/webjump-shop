@@ -29,3 +29,10 @@ if ('add' === $action) {
     require 'template/addCategory.php';
     exit;
 }
+
+if ('list' === $action) {
+    $categories = $categoryService->findAll();
+
+    require 'template/categories.php';
+    exit;
+}
