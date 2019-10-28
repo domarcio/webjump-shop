@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Nogues\Product\Entity;
 
+use Ramsey\Uuid\Uuid;
+
 /**
  * Product entity.
  *
@@ -21,14 +23,14 @@ class Product
      *
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * Public ID.
      *
-     * @var string
+     * @var Ramsey\Uuid\UuidInterface
      */
-    private $publicId;
+    protected $publicId;
 
     /**
      * Name.
@@ -70,14 +72,19 @@ class Product
      *
      * @var \DateTimeImmutable
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * Updated at.
      *
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
+
+    public function __construct()
+    {
+        $this->publicId = Uuid::uuid4();
+    }
 
     /**
      * Set dates on pre persist and update.
@@ -86,23 +93,23 @@ class Product
      */
     public function updatedTimestamps(): void
     {
-        $this->setUpdatedAt(new \DateTime('now'));
+        $this->updatedAt = new \DateTime('now');
         if (null === $this->getCreatedAt()) {
-            $this->setCreatedAt(new \DateTimeImmutable('now'));
+            $this->createdAt = new \DateTimeImmutable('now');
         }
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPublicId(): string
+    public function getPublicId(): ?\Ramsey\Uuid\UuidInterface
     {
         return $this->publicId;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -112,7 +119,7 @@ class Product
         $this->name = $name;
     }
 
-    public function getSku(): string
+    public function getSku(): ?string
     {
         return $this->sku;
     }
@@ -122,7 +129,7 @@ class Product
         $this->sku = $sku;
     }
 
-    public function getPrice(): float
+    public function getPrice(): ?float
     {
         return $this->price;
     }
@@ -132,17 +139,17 @@ class Product
         $this->price = $price;
     }
 
-    public function getAvailableQuantity(): int
+    public function getAvailableQuantity(): ?int
     {
         return $this->availableQuantity;
     }
 
-    public function setavailableQuantity(int $availableQuantity): void
+    public function setAvailableQuantity(int $availableQuantity): void
     {
         $this->availableQuantity = $availableQuantity;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -157,18 +164,8 @@ class Product
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTime $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
     }
 }

@@ -11,10 +11,6 @@ Nogues\Product\Entity\Product:
     publicId:
       type: uuid
       unique: true
-      generator:
-          strategy: CUSTOM
-      customIdGenerator:
-          class: Ramsey\Uuid\Doctrine\UuidGenerator
     name:
       type: string
       length: 255
