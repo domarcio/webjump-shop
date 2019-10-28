@@ -29,5 +29,12 @@ return [
                 './mapping/'
             ],
         ],
+        'configuration' => [
+            'orm_default' => [
+                'types' => [
+                    \Ramsey\Uuid\Doctrine\UuidType::NAME => \Ramsey\Uuid\Doctrine\UuidType::class
+                ],
+            ],
+        ],
     ],
 ];

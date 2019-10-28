@@ -15,7 +15,8 @@
         "zendframework/zend-config-aggregator": "^1.1@dev",
         "zendframework/zend-servicemanager": "^3.3@dev",
         "symfony/yaml": "^5.0@dev",
-        "zendframework/zend-inputfilter": "^2.10@dev"
+        "zendframework/zend-inputfilter": "^2.10@dev",
+        "ramsey/uuid-doctrine": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"

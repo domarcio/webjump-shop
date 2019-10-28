@@ -1,0 +1,44 @@
+Nogues\Product\Entity\Product:
+  type: entity
+  table: product
+  readOnly: false
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    publicId:
+      type: uuid
+      unique: true
+      generator:
+          strategy: CUSTOM
+      customIdGenerator:
+          class: Ramsey\Uuid\Doctrine\UuidGenerator
+    name:
+      type: string
+      length: 255
+      nullable: false
+    sku:
+      type: string
+      column: sku
+      columnDefinition: CHAR(20) NOT NULL
+      nullable: false
+      unique: true
+    price:
+      type: decimal
+      precision: 10
+      scale: 2
+      nullable: false
+    availableQuantity:
+      type: smallint
+      length: 11
+      nullable: false
+    description:
+      type: text
+    createdAt:
+      column: created_at
+      type: datetime_immutable
+    updatedAt:
+      column: updated_at
+      type: datetime

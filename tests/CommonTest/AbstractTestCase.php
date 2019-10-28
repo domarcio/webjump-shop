@@ -9,12 +9,15 @@ declare(strict_types=1);
 namespace Nogues\Test\CommonTest;
 
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\Driver\YamlDriver;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+
+use Ramsey\Uuid\Doctrine\UuidType;
 
 abstract class AbstractTestCase extends TestCase
 {
@@ -46,6 +49,13 @@ abstract class AbstractTestCase extends TestCase
         ];
 
         $entityManager = EntityManager::create($connection, $doctrine);
+
+        // Register UUID type
+        $uuidTypeName = UuidType::NAME;
+        if (! Type::hasType($uuidTypeName)) {
+            Type::addType($uuidTypeName, UuidType::class);
+            $entityManager->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping($uuidTypeName, $uuidTypeName);
+        }
 
         $container = $this->prophesize(ContainerInterface::class);
         $container

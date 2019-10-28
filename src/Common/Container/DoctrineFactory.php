@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Nogues\Common\Container;
 
 use Doctrine\Common\Cache\Cache;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\YamlDriver;
@@ -27,12 +28,17 @@ final class DoctrineFactory
     public function __invoke(ContainerInterface $container)
     {
         $config = $container->has('config') ? $container->get('config') : [];
+        $config = $config['doctrine'] ?? false;
+
+        if (empty($config)) {
+            throw new \Exception('Doctrine configuration does not available.');
+        }
 
         // Configurations
-        $proxyDir                 = $config['doctrine']['orm']['proxy_dir'] ?? 'data/cache/EntityProxy';
-        $proxyNamespace           = $config['doctrine']['orm']['proxy_namespace'] ?? 'EntityProxy';
-        $autoGenerateProxyClasses = $config['doctrine']['orm']['auto_generate_proxy_classes'] ?? false;
-        $underscoreNamingStrategy = $config['doctrine']['orm']['underscore_naming_strategy'] ?? false;
+        $proxyDir                 = $config['orm']['proxy_dir'] ?? 'data/cache/EntityProxy';
+        $proxyNamespace           = $config['orm']['proxy_namespace'] ?? 'EntityProxy';
+        $autoGenerateProxyClasses = $config['orm']['auto_generate_proxy_classes'] ?? false;
+        $underscoreNamingStrategy = $config['orm']['underscore_naming_strategy'] ?? false;
 
         // Doctrine ORM
         $doctrine = new Configuration();
@@ -45,7 +51,7 @@ final class DoctrineFactory
         }
 
         // ORM Mapping by YAML
-        $driver = new YamlDriver($config['doctrine']['annotation']['metadata']);
+        $driver = new YamlDriver($config['annotation']['metadata']);
         $doctrine->setMetadataDriverImpl($driver);
 
         // Cache
@@ -54,7 +60,16 @@ final class DoctrineFactory
         $doctrine->setResultCacheImpl($cache);
         $doctrine->setMetadataCacheImpl($cache);
 
-        // EntityManager
-        return EntityManager::create($config['doctrine']['connection']['orm_default'], $doctrine);
+        $entityManager = EntityManager::create($config['connection']['orm_default'], $doctrine);
+
+        $types = $config['configuration']['orm_default']['types'] ?? [];
+        foreach ($types as $name => $className) {
+            if (! Type::hasType($name)) {
+                Type::addType($name, $className);
+                $entityManager->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping($name, $name);
+            }
+        }
+
+        return $entityManager;
     }
 }
