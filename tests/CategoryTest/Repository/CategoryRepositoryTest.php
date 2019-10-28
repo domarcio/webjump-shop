@@ -144,4 +144,26 @@ final class CategoryRepositoryTest extends AbstractTestCase
         $this->assertEquals(1, $categoryEntity->getParent()->getId());
         $this->assertEquals('Foo', $categoryEntity->getParent()->getName());
     }
+
+    public function testRemoveParentCategoryFromEntity()
+    {
+        $tmpEntity1 = new CategoryEntity();
+        $tmpEntity1->setName('Foo');
+        $this->repository->store($tmpEntity1);
+
+        $tmpEntity2 = new CategoryEntity();
+        $tmpEntity2->setName('Bar');
+        $tmpEntity2->setParent($tmpEntity1);
+        $this->repository->store($tmpEntity2);
+
+        $entity = $this->repository->find(2);
+        $this->assertEquals(1, $entity->getParent()->getId());
+
+        $entity->setParent(null);
+        $this->repository->store($entity);
+
+        $entity = $this->repository->find(2);
+        $this->assertEquals(2, $entity->getId());
+        $this->assertNull($entity->getParent()->getId());
+    }
 }

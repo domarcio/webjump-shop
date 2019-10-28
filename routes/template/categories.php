@@ -71,8 +71,8 @@
         </td>  
         <td class="data-grid-td">
           <div class="actions">
-            <div class="action edit"><span>Edit</span></div>
-            <div class="action delete"><span>Delete</span></div>
+            <div class="action edit"><a href="/?handler=category&action=update&id=<?php echo $category->getId(); ?>">Edit</a></span></div>
+            <div class="action delete"><span><a href="/?handler=category&action=delete&id=<?php echo $category->getId(); ?>">Delete</a></span></div>
           </div>
         </td>
       </tr>

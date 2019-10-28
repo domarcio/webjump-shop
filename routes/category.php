@@ -10,6 +10,7 @@ $categoryService = $container->get(Nogues\Category\Service\CategoryService::clas
 
 if ('add' === $action) {
     $categories = $categoryService->findAll();
+    $entity     = new Nogues\Category\Entity\Category();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $parentEntity = $categoryService->findById((int) $_POST['parent']);
@@ -21,9 +22,9 @@ if ('add' === $action) {
             $entity->setParent($parentEntity);
         }
 
-        $store = $categoryService->store($entity);
+        $categoryService->store($entity);
 
-        header('Location: ?' . $_SERVER['QUERY_STRING']);
+        header('Location: /?' . $_SERVER['QUERY_STRING']);
     }
 
     require 'template/addCategory.php';
@@ -34,5 +35,49 @@ if ('list' === $action) {
     $categories = $categoryService->findAll();
 
     require 'template/categories.php';
+    exit;
+}
+
+if ('update' === $action && ! empty($_GET['id'])) {
+    $id         = (int) $_GET['id'];
+    $entity     = $categoryService->findById($id);
+    $categories = $categoryService->findAll();
+
+    if (null === $entity->getId()) {
+        header('Location: /?handler=category&action=list');
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $parentEntity = $categoryService->findById((int) $_POST['parent']);
+
+        $entity = $categoryService->findById($id);
+        $entity->setName($_POST['name'] ?? '');
+
+        // Remove relationships from category entity
+        if (null === $parentEntity->getId() && null !== $entity->getParent()->getId()) {
+            $entity->setParent(null);
+        }
+
+        if (null !== $parentEntity->getId()) {
+            $entity->setParent($parentEntity);
+        }
+
+        $categoryService->store($entity);
+
+        header('Location: /?' . $_SERVER['QUERY_STRING']);
+    }
+
+    require 'template/addCategory.php';
+    exit;
+}
+
+if ('delete' === $action && ! empty($_GET['id'])) {
+    $id = (int) $_GET['id'];
+    if ($id > 0) {
+        $categoryService->deleteOne($id);
+    }
+
+    header('Location: /?handler=category&action=list');
     exit;
 }

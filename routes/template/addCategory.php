@@ -44,14 +44,23 @@
     <form action="" method="POST">
       <div class="input-field">
         <label for="category-name" class="label">Category Name</label>
-        <input type="text" name="name" id="category-name" class="input-text" />
+        <input type="text" name="name" id="category-name" class="input-text" value="<?php echo $entity->getName(); ?>" />
       </div>
       <div class="input-field">
         <label for="parent-category" class="label">Parent Category</label>
         <select name="parent" id="parent-category" class="input-text" >
             <option value="">Select a Category</option>
             <?php foreach ($categories as $category) { ?>
-                <option value="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></option>
+                <?php
+                if ($category->getId() === $entity->getId()) {
+                    continue;
+                }
+                $selected = '';
+                if ($entity->getParent()->getId() === $category->getId()) {
+                    $selected = 'selected="selected"';
+                }
+                ?>
+                <option <?php echo $selected; ?> value="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></option>
             <?php } ?>
         </select>
       </div>

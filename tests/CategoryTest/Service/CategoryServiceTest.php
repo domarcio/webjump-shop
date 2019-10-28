@@ -93,4 +93,20 @@ final class CategoryServiceTest extends AbstractTestCase
         $entity = $this->service->findById(1);
         $this->assertEquals(1, $entity->getId());
     }
+
+    public function testDeleteOneSuccessfully()
+    {
+        $tmpEntity = new CategoryEntity();
+        $tmpEntity->setName('Foo');
+        $this->service->store($tmpEntity);
+
+        $result = $this->service->deleteOne(1);
+        $this->assertTrue($result);
+    }
+
+    public function testDeleteOneNotSuccessfully()
+    {
+        $result = $this->service->deleteOne(1);
+        $this->assertFalse($result);
+    }
 }

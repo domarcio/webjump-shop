@@ -65,4 +65,21 @@ final class CategoryService
     {
         return $this->repository->find($id);
     }
+
+    /**
+     * Delete one category.
+     *
+     * @param int $id
+     *
+     * @return boolean
+     */
+    public function deleteOne(int $id): bool
+    {
+        $entity = $this->findById($id);
+        if (null === $entity->getId()) {
+            return false;
+        }
+
+        return $this->repository->delete($id);
+    }
 }
