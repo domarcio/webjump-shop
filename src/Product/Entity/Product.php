@@ -142,16 +142,6 @@ class Product
         $this->availableQuantity = $availableQuantity;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function getDescription(): string
     {
         return $this->description;
@@ -160,6 +150,16 @@ class Product
     public function setDescription(string $description = null): void
     {
         $this->description = $description;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function getUpdatedAt(): ?\DateTime
