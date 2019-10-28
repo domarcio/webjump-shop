@@ -42,3 +42,6 @@ Nogues\Product\Entity\Product:
     updatedAt:
       column: updated_at
       type: datetime
+  lifecycleCallbacks:
+    prePersist: [ updatedTimestamps ]
+    preUpdate: [ updatedTimestamps ]

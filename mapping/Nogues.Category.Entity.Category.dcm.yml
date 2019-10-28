@@ -4,7 +4,7 @@ Nogues\Category\Entity\Category:
   readOnly: false
   indexes:
     parent_id_idx:
-      columns: [parent_id]
+      columns: [ parent_id ]
   id:
     id:
       type: integer
