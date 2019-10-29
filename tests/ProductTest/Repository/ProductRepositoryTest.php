@@ -55,8 +55,6 @@ final class ProductRepositoryTest extends AbstractTestCase
 
         $result = $this->repository->store($productEntity);
         $this->assertEquals(1, $result);
-        //$this->assertInstanceOf(\DateTimeImmutable::class, $result->getCreatedAt());
-        //$this->assertInstanceOf(\DateTime::class, $result->getUpdatedAt());
     }
 
     public function testFind()
@@ -72,6 +70,8 @@ final class ProductRepositoryTest extends AbstractTestCase
         $entity1 = $this->repository->find(1);
         $this->assertEquals(1, $entity1->getId());
         $this->assertInstanceOf(\Ramsey\Uuid\UuidInterface::class, $entity1->getPublicId());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $entity1->getCreatedAt());
+        $this->assertInstanceOf(\DateTime::class, $entity1->getUpdatedAt());
 
         $entity2 = $this->repository->find(1);
 
@@ -98,5 +98,74 @@ final class ProductRepositoryTest extends AbstractTestCase
 
         $invalidEntity = $this->repository->findByPublicId('');
         $this->assertNull($invalidEntity->getId());
+    }
+
+    public function testIfUpdatedSuccessfully()
+    {
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Foo');
+        $productEntity->setSku('foo-123456-bar');
+        $productEntity->setPrice(1500.70);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        $this->repository->store($productEntity);
+
+        $originalCreatedAt = $productEntity->getCreatedAt();
+        $originalUpdatedAt = $productEntity->getUpdatedAt();
+
+        $entity1 = $this->repository->find(1);
+        $entity1->setName('XPTO');
+
+        sleep(1);
+        $this->repository->store($entity1);
+
+        $entity2 = $this->repository->find(1);
+        $this->assertEquals(1, $entity2->getId());
+        $this->assertEquals('XPTO', $entity2->getName());
+        $this->assertEquals($entity1->getCreatedAt()->getTimestamp(), $originalCreatedAt->getTimestamp());
+        $this->assertTrue($entity2->getUpdatedAt()->getTimestamp() > $originalUpdatedAt->getTimestamp());
+    }
+
+    public function testFoundAll()
+    {
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Foo');
+        $productEntity->setSku('foo-123456-bar');
+        $productEntity->setPrice(1500.70);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        $this->repository->store($productEntity);
+
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Bar');
+        $productEntity->setSku('bar-123456-foo');
+        $productEntity->setPrice(1500.00);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        $this->repository->store($productEntity);
+
+        $products = $this->repository->findAll();
+        $this->assertCount(2, $products);
+    }
+
+    public function testNotFoundAll()
+    {
+        $products = $this->repository->findAll();
+        $this->assertCount(0, $products);
+    }
+
+    public function testIfDeletedSuccessfully()
+    {
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Bar');
+        $productEntity->setSku('bar-123456-foo');
+        $productEntity->setPrice(1500.00);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        $this->repository->store($productEntity);
+
+        $result = $this->repository->delete(1);
+
+        $this->assertTrue($result);
     }
 }

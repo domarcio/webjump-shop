@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Nogues\Product\Entity;
 
+use Nogues\Common\Entity\EntityInterface;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -16,7 +17,7 @@ use Ramsey\Uuid\Uuid;
  * @package Nogues\Product\Entity
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-class Product
+class Product implements EntityInterface
 {
     /**
      * Primary Key ID.
@@ -28,7 +29,7 @@ class Product
     /**
      * Public ID.
      *
-     * @var Ramsey\Uuid\UuidInterface
+     * @var \Ramsey\Uuid\UuidInterface
      */
     protected $publicId;
 

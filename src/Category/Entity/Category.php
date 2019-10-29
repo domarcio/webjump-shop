@@ -8,13 +8,15 @@ declare(strict_types=1);
 
 namespace Nogues\Category\Entity;
 
+use Nogues\Common\Entity\EntityInterface;
+
 /**
  * Category entity.
  *
  * @package Nogues\Category\Entity
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-class Category
+class Category implements EntityInterface
 {
     /**
      * Primary Key ID.
