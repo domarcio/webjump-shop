@@ -21,7 +21,7 @@ final class CategoryRepositoryTest extends AbstractTestCase
 
     protected function setUp()
     {
-        $container  = $this->getEntityManager();
+        $container  = $this->getContainer();
         $factory    = new CategoryRepositoryFactory();
 
         $entityManager = $container->reveal()->get(EntityManager::class);
@@ -36,7 +36,7 @@ final class CategoryRepositoryTest extends AbstractTestCase
 
     public function tearDown()
     {
-        $container     = $this->getEntityManager();
+        $container     = $this->getContainer();
         $entityManager = $container->reveal()->get(EntityManager::class);
 
         $classes = $entityManager->getMetadataFactory()->getAllMetadata();

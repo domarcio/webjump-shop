@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Nogues\Product\Entity;
 
+use Nogues\Category\Entity\Category;
 use Nogues\Common\Entity\EntityInterface;
 use Ramsey\Uuid\Uuid;
 
@@ -81,6 +82,13 @@ class Product implements EntityInterface
      * @var \DateTime
      */
     protected $updatedAt;
+
+    /**
+     * Array of Category entitiy.
+     *
+     * @var array
+     */
+    private $categories = [];
 
     public function __construct()
     {
@@ -168,5 +176,17 @@ class Product implements EntityInterface
     public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Add a category to product.
+     *
+     * @param Category $category
+     *
+     * @return void
+     */
+    public function addCategory(Category $category): void
+    {
+        $this->categories[] = $category;
     }
 }

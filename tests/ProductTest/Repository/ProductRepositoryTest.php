@@ -10,6 +10,8 @@ namespace Nogues\Test\CategoryTest\Repository;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
+use Nogues\Category\Entity\Category as CategoryEntity;
+use Nogues\Category\Repository\CategoryRepositoryFactory;
 use Nogues\Product\Entity\Product as ProductEntity;
 use Nogues\Product\Repository\ProductRepositoryFactory;
 use Nogues\Test\CommonTest\AbstractTestCase;
@@ -20,7 +22,7 @@ final class ProductRepositoryTest extends AbstractTestCase
 
     protected function setUp()
     {
-        $container  = $this->getEntityManager();
+        $container  = $this->getContainer();
         $factory    = new ProductRepositoryFactory();
 
         $entityManager = $container->reveal()->get(EntityManager::class);
@@ -35,7 +37,7 @@ final class ProductRepositoryTest extends AbstractTestCase
 
     public function tearDown()
     {
-        $container     = $this->getEntityManager();
+        $container     = $this->getContainer();
         $entityManager = $container->reveal()->get(EntityManager::class);
 
         $classes = $entityManager->getMetadataFactory()->getAllMetadata();
@@ -167,5 +169,38 @@ final class ProductRepositoryTest extends AbstractTestCase
         $result = $this->repository->delete(1);
 
         $this->assertTrue($result);
+    }
+
+    public function testCreatedWithManyCategoriesSuccessfully()
+    {
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Foo');
+        $productEntity->setSku('foo-123456-bar');
+        $productEntity->setPrice(1500.70);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+
+        // Get category repository by factory
+        $container                 = $this->getContainer();
+        $categoryRepositoryFactory = new CategoryRepositoryFactory();
+        $categoryRepository        = $categoryRepositoryFactory($container->reveal(), null, get_class($container->reveal()));
+
+        $categoryEntityFoo = new CategoryEntity();
+        $categoryEntityFoo->setName('Foo');
+        $categoryRepository->store($categoryEntityFoo);
+
+        // Add category `Foo` to Product
+        $productEntity->addCategory($categoryEntityFoo);
+
+        $categoryEntityBar = new CategoryEntity();
+        $categoryEntityBar->setName('Bar');
+        $categoryRepository->store($categoryEntityBar);
+
+        // Add category `Bar` to Product
+        $productEntity->addCategory($categoryEntityBar);
+
+        // Save product with categories
+        $result = $this->repository->store($productEntity);
+        $this->assertEquals(1, $result);
     }
 }

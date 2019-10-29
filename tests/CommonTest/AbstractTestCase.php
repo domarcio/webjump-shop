@@ -21,7 +21,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 
 abstract class AbstractTestCase extends TestCase
 {
-    protected function getEntityManager()
+    protected function getContainer()
     {
         // Doctrine ORM
         $doctrine = new Configuration();

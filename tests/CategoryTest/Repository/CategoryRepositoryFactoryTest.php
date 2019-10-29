@@ -18,7 +18,7 @@ final class CategoryRepositoryFactoryTest extends AbstractTestCase
 {
     public function testIfFactoryCreatedSuccessfully()
     {
-        $container  = $this->getEntityManager();
+        $container  = $this->getContainer();
         $factory    = new CategoryRepositoryFactory();
         $repository = $factory($container->reveal(), null, get_class($container->reveal()));
 

@@ -18,7 +18,7 @@ final class ProductRepositoryFactoryTest extends AbstractTestCase
 {
     public function testIfFactoryCreatedSuccessfully()
     {
-        $container  = $this->getEntityManager();
+        $container  = $this->getContainer();
         $factory    = new ProductRepositoryFactory();
         $repository = $factory($container->reveal(), null, get_class($container->reveal()));
 

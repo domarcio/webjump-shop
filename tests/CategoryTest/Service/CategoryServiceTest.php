@@ -20,7 +20,7 @@ final class CategoryServiceTest extends AbstractTestCase
 
     protected function setUp()
     {
-        $container  = $this->getEntityManager();
+        $container  = $this->getContainer();
         $factory    = new CategoryServiceFactory();
 
         $entityManager = $container->reveal()->get(EntityManager::class);
@@ -35,7 +35,7 @@ final class CategoryServiceTest extends AbstractTestCase
 
     public function tearDown()
     {
-        $container     = $this->getEntityManager();
+        $container     = $this->getContainer();
         $entityManager = $container->reveal()->get(EntityManager::class);
 
         $classes = $entityManager->getMetadataFactory()->getAllMetadata();
