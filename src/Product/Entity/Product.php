@@ -89,7 +89,7 @@ class Product implements EntityInterface
      *
      * @var PersistentCollection
      */
-    private $categories;
+    protected $categories;
 
     public function __construct()
     {
@@ -196,7 +196,7 @@ class Product implements EntityInterface
      *
      * @return PersistentCollection
      */
-    public function getCategories(): PersistentCollection
+    public function getCategories(): ?PersistentCollection
     {
         return $this->categories;
     }

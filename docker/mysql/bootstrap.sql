@@ -27,10 +27,8 @@ CREATE TABLE shop.category (
 ) ENGINE=InnoDB;
 
 CREATE TABLE shop.related_category (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     category_id INT(11) NOT NULL,
     related_id INT(11) NOT NULL,
-    INDEX category_id_idx (category_id),
-    INDEX related_id_idx (related_id),
+    PRIMARY KEY (category_id, related_id),
     FOREIGN KEY (category_id) REFERENCES category (id)
 ) ENGINE=InnoDB;

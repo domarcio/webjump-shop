@@ -33,7 +33,7 @@ final class CategoryServiceTest extends AbstractTestCase
         parent::setUp();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $container     = $this->getContainer();
         $entityManager = $container->reveal()->get(EntityManager::class);

@@ -9,6 +9,7 @@ Nogues\Product\Entity\Product:
         strategy: AUTO
   fields:
     publicId:
+      column: public_id
       type: uuid
       unique: true
     name:
