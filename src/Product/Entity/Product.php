@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Nogues\Product\Entity;
 
+use Doctrine\ORM\PersistentCollection;
 use Nogues\Category\Entity\Category;
 use Nogues\Common\Entity\EntityInterface;
 use Ramsey\Uuid\Uuid;
@@ -84,11 +85,11 @@ class Product implements EntityInterface
     protected $updatedAt;
 
     /**
-     * Array of Category entitiy.
+     * Collection of Category entities.
      *
-     * @var array
+     * @var PersistentCollection
      */
-    private $categories = [];
+    private $categories;
 
     public function __construct()
     {
@@ -188,5 +189,15 @@ class Product implements EntityInterface
     public function addCategory(Category $category): void
     {
         $this->categories[] = $category;
+    }
+
+    /**
+     * Get categories of product.
+     *
+     * @return PersistentCollection
+     */
+    public function getCategories(): PersistentCollection
+    {
+        return $this->categories;
     }
 }

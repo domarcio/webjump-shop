@@ -28,6 +28,7 @@ Nogues\Product\Entity\Product:
       nullable: false
     availableQuantity:
       type: smallint
+      column: available_quantity
       length: 11
       nullable: false
     description:
@@ -38,11 +39,18 @@ Nogues\Product\Entity\Product:
     updatedAt:
       column: updated_at
       type: datetime
-  oneToMany:
+  manyToMany:
     categories:
-      targetEntity: Nogues\Category\Entity\RelatedCategory
-      mappedBy: categories
-      cascade: ["persist", "merge", "remove"]
+      targetEntity: Nogues\Category\Entity\Category
+      cascade: ["persist", "remove"]
+      joinTable:
+        name: related_category
+        joinColumns:
+          category_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          related_id:
+            referencedColumnName: id
   lifecycleCallbacks:
     prePersist: [ updatedTimestamps ]
     preUpdate: [ updatedTimestamps ]

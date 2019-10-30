@@ -76,7 +76,7 @@ abstract class AbstractDoctrineRepository implements DoctrineRepositoryInterface
 
             $entityState = $this->entityManager->getUnitOfWork()->getEntityState($entity);
         } catch (\Exception $e) {
-            return false;
+            throw $e;
         }
 
         return in_array($entityState, $states) ? 1 : 0;
@@ -101,7 +101,7 @@ abstract class AbstractDoctrineRepository implements DoctrineRepositoryInterface
             $entityState = $em->getUnitOfWork()->getEntityState($entity);
             $em->flush();
         } catch (\Exception $e) {
-            return false;
+            throw $e;
         }
 
         return $entityState === UnitOfWork::STATE_REMOVED;

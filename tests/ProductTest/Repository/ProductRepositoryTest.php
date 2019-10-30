@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Nogues\Test\CategoryTest\Repository;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Tools\SchemaTool;
 use Nogues\Category\Entity\Category as CategoryEntity;
 use Nogues\Category\Repository\CategoryRepositoryFactory;
@@ -185,22 +186,120 @@ final class ProductRepositoryTest extends AbstractTestCase
         $categoryRepositoryFactory = new CategoryRepositoryFactory();
         $categoryRepository        = $categoryRepositoryFactory($container->reveal(), null, get_class($container->reveal()));
 
+        // Add category `Foo` to Product
         $categoryEntityFoo = new CategoryEntity();
         $categoryEntityFoo->setName('Foo');
         $categoryRepository->store($categoryEntityFoo);
-
-        // Add category `Foo` to Product
         $productEntity->addCategory($categoryEntityFoo);
 
+        // Add category `Bar` to Product
         $categoryEntityBar = new CategoryEntity();
         $categoryEntityBar->setName('Bar');
         $categoryRepository->store($categoryEntityBar);
-
-        // Add category `Bar` to Product
         $productEntity->addCategory($categoryEntityBar);
 
         // Save product with categories
         $result = $this->repository->store($productEntity);
         $this->assertEquals(1, $result);
+
+        // Test categories returned
+        unset($productEntity);
+        $productEntity = $this->repository->find(1);
+        $categoriesProduct = $productEntity->getCategories();
+
+        foreach ($categoriesProduct as $category) {
+            $this->assertInstanceOf(CategoryEntity::class, $category);
+            $this->assertTrue(is_int($category->getId()));
+        }
+    }
+
+    public function testCreatedManyCategoriesWithParentCategorySuccessfully()
+    {
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Foo');
+        $productEntity->setSku('foo-123456-bar');
+        $productEntity->setPrice(1500.70);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+
+        // Get category repository by factory
+        $container                 = $this->getContainer();
+        $categoryRepositoryFactory = new CategoryRepositoryFactory();
+        $categoryRepository        = $categoryRepositoryFactory($container->reveal(), null, get_class($container->reveal()));
+
+        // Add category `Bar` to Product with Parent Category.
+        $categoryEntityFoo = new CategoryEntity();
+        $categoryEntityFoo->setName('Foo');
+        $categoryRepository->store($categoryEntityFoo);
+
+        $categoryEntityBar = new CategoryEntity();
+        $categoryEntityBar->setName('Bar');
+        $categoryEntityBar->setParent($categoryEntityFoo);
+        $categoryRepository->store($categoryEntityBar);
+
+        $productEntity->addCategory($categoryEntityBar);
+
+        // Save product with category
+        $result = $this->repository->store($productEntity);
+        $this->assertEquals(1, $result);
+
+        // Test categories returned
+        unset($productEntity);
+        $productEntity = $this->repository->find(1);
+        $categoriesProduct = $productEntity->getCategories();
+
+        foreach ($categoriesProduct as $category) {
+            $this->assertInstanceOf(CategoryEntity::class, $category);
+            $this->assertTrue(is_int($category->getId()));
+
+            // Test parent
+            $this->assertInstanceOf(CategoryEntity::class, $category->getParent());
+        }
+    }
+
+    public function testCreatedManyCategoriesWithChildrenCategorySuccessfully()
+    {
+        $productEntity = new ProductEntity();
+        $productEntity->setName('FooBarProduct');
+        $productEntity->setSku('foo-123456-bar');
+        $productEntity->setPrice(1500.70);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+
+        // Get category repository by factory
+        $container                 = $this->getContainer();
+        $categoryRepositoryFactory = new CategoryRepositoryFactory();
+        $categoryRepository        = $categoryRepositoryFactory($container->reveal(), null, get_class($container->reveal()));
+
+        // Add category `Bar` to Product with Parent Category.
+        $categoryEntityFoo = new CategoryEntity();
+        $categoryEntityFoo->setName('Foo');
+        $categoryRepository->store($categoryEntityFoo);
+
+        $categoryEntityBar = new CategoryEntity();
+        $categoryEntityBar->setName('Bar');
+        $categoryEntityBar->setParent($categoryEntityFoo);
+        $categoryRepository->store($categoryEntityBar);
+
+        // Add to product the Category that does not a parent, but it's a parent of another category (Bar)
+        $productEntity->addCategory($categoryEntityFoo);
+
+        // Save product with category
+        $result = $this->repository->store($productEntity);
+        $this->assertEquals(1, $result);
+
+        // Test categories returned
+        unset($productEntity);
+        $productEntity = $this->repository->find(1);
+        $categoriesProduct = $productEntity->getCategories();
+var_dump( $categoryRepository->findAll() );
+        foreach ($categoriesProduct as $category) {
+            $this->assertInstanceOf(CategoryEntity::class, $category);
+            $this->assertTrue(is_int($category->getId()));
+
+            // Test children
+            var_dump($category);
+            //$this->assertInstanceOf(PersistentCollection::class, $category->getChildren());
+        }
     }
 }
