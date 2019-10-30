@@ -12,7 +12,8 @@ use \Exception;
 
 use Doctrine\ORM\EntityManager;
 use Nogues\Category\Entity\Category as CategoryEntity;
-use Nogues\Common\Repository\DoctrineRepositoryTrait;
+use Nogues\Common\Entity\EntityInterface;
+use Nogues\Common\Repository\AbstractDoctrineRepository;
 
 /**
  * Contract for entity repositories.
@@ -20,13 +21,8 @@ use Nogues\Common\Repository\DoctrineRepositoryTrait;
  * @package Nogues\Category\Repository
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-final class CategoryRepository implements CategoryRepositoryInterface
+final class CategoryRepository extends AbstractDoctrineRepository
 {
-    use DoctrineRepositoryTrait {
-        find as traitFind;
-        store as traitStore;
-    }
-
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -40,20 +36,8 @@ final class CategoryRepository implements CategoryRepositoryInterface
      *
      * @return Nogues\Category\Entity\Category
      */
-    public function find(int $id): CategoryEntity
+    public function find(int $id): EntityInterface
     {
-        return $this->traitFind($id) ?: new CategoryEntity();
-    }
-
-    /**
-     * Create or update one Category.
-     *
-     * @param Nogues\Category\Entity\Category $category
-     *
-     * @return int
-     */
-    public function store(CategoryEntity $category): int
-    {
-        return $this->traitStore($category);
+        return parent::find($id) ?: new CategoryEntity();
     }
 }

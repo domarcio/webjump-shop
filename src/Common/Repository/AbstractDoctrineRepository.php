@@ -9,30 +9,29 @@ declare(strict_types=1);
 namespace Nogues\Common\Repository;
 
 use Doctrine\ORM\UnitOfWork;
-
 use Nogues\Common\Entity\EntityInterface;
 
 /**
- * Common trait to works with Doctrine repositories.
+ * Common abstract repostitory to works with Doctrine repositories.
  *
  * @package Nogues\Common\Repository
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-trait DoctrineRepositoryTrait
+abstract class AbstractDoctrineRepository implements DoctrineRepositoryInterface
 {
     /**
      * Entity Manager.
      *
      * @var Doctrine\ORM\EntityManager
      */
-    private $entityManager;
+    protected $entityManager;
 
     /**
      * Entity name.
      *
      * @var string
      */
-    private $entityName;
+    protected $entityName;
 
     /**
      * Find an Entity by ID.
@@ -41,10 +40,11 @@ trait DoctrineRepositoryTrait
      *
      * @return EntityInterface
      */
-    public function find(int $id): ?EntityInterface
+    public function find(int $id): EntityInterface
     {
+        $entityName = $this->entityName;
         $repository = $this->entityManager->getRepository($this->entityName);
-        return $repository->find($id);
+        return $repository->find($id) ?: new $entityName();
     }
 
     /**

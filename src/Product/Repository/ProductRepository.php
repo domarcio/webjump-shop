@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Nogues\Product\Repository;
 
 use Doctrine\ORM\EntityManager;
-use Nogues\Common\Repository\DoctrineRepositoryTrait;
+use Nogues\Common\Repository\AbstractDoctrineRepository;
 use Nogues\Product\Entity\Product;
 
 /**
@@ -18,29 +18,12 @@ use Nogues\Product\Entity\Product;
  * @package Nogues\Product\Repository
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-final class ProductRepository implements ProductRepositoryInterface
+final class ProductRepository extends AbstractDoctrineRepository implements ProductRepositoryInterface
 {
-    use DoctrineRepositoryTrait {
-        find as traitFind;
-        store as traitStore;
-    }
-
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->entityName    = Product::class;
-    }
-
-    /**
-     * Find one product by ID.
-     *
-     * @param int $id
-     *
-     * @return Nogues\Product\Entity\Product
-     */
-    public function find(int $id): Product
-    {
-        return $this->traitFind($id) ?: new Product();
     }
 
     /**
@@ -55,17 +38,5 @@ final class ProductRepository implements ProductRepositoryInterface
         $repository = $this->entityManager->getRepository($this->entityName);
         $entity     = $repository->findOneBy(['publicId' => $publicId]);
         return $entity ?: new Product();
-    }
-
-    /**
-     * Create or update one Product.
-     *
-     * @param Nogues\Product\Entity\Product $product
-     *
-     * @return int
-     */
-    public function store(Product $product): int
-    {
-        return $this->traitStore($product);
     }
 }

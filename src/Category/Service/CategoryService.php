@@ -10,14 +10,14 @@ namespace Nogues\Category\Service;
 
 use Nogues\Category\Entity\Category;
 use Nogues\Category\Filter\FilterInterface;
-use Nogues\Category\Repository\CategoryRepositoryInterface;
+use Nogues\Common\Repository\DoctrineRepositoryInterface;
 
 final class CategoryService
 {
     /**
      * Repository.
      *
-     * @var Nogues\Category\Repository\CategoryRepositoryInterface
+     * @var Nogues\Common\Repository\DoctrineRepositoryInterface
      */
     private $repository;
 
@@ -28,7 +28,7 @@ final class CategoryService
      */
     private $filter;
 
-    public function __construct(CategoryRepositoryInterface $repository, FilterInterface $filter)
+    public function __construct(DoctrineRepositoryInterface $repository, FilterInterface $filter)
     {
         $this->repository = $repository;
         $this->filter     = $filter;
