@@ -12,7 +12,7 @@ if ('add' === $action) {
     $categories = $categoryService->findAll();
     $entity     = new Nogues\Category\Entity\Category();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ('POST' === $_SERVER['REQUEST_METHOD']) {
         $parentEntity = $categoryService->findById((int) $_POST['parent']);
 
         $entity = new Nogues\Category\Entity\Category();
@@ -48,7 +48,7 @@ if ('update' === $action && ! empty($_GET['id'])) {
         exit;
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ('POST' === $_SERVER['REQUEST_METHOD']) {
         $parentEntity = $categoryService->findById((int) $_POST['parent']);
 
         $entity = $categoryService->findById($id);

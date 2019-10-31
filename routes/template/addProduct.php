@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html ⚡>
 <head>
@@ -34,48 +33,63 @@
   </div>
   <div class="right-box">
     <span class="go-title">Administration Panel</span>
-  </div>    
-</header>  
+  </div>
+</header>
 <!-- Header -->
   <!-- Main Content -->
   <main class="content">
     <h1 class="title new-item">New Product</h1>
-    
-    <form>
+
+    <form action="" method="POST">
       <div class="input-field">
         <label for="sku" class="label">Product SKU</label>
-        <input type="text" id="sku" class="input-text" /> 
+        <input type="text" id="sku" class="input-text" name="sku" value="<?php echo $entity->getSku(); ?>" />
       </div>
       <div class="input-field">
         <label for="name" class="label">Product Name</label>
-        <input type="text" id="name" class="input-text" /> 
+        <input type="text" id="name" class="input-text" name="name" value="<?php echo $entity->getName(); ?>" />
       </div>
       <div class="input-field">
         <label for="price" class="label">Price</label>
-        <input type="text" id="price" class="input-text" /> 
+        <input type="number" step=0.01 min=0 id="price" class="input-text" name="price" value="<?php echo $entity->getPrice(); ?>" />
       </div>
       <div class="input-field">
         <label for="quantity" class="label">Quantity</label>
-        <input type="text" id="quantity" class="input-text" /> 
+        <input type="number" min=0 id="quantity" class="input-text" name="quantity" value="<?php echo $entity->getAvailableQuantity(); ?>" />
       </div>
       <div class="input-field">
         <label for="category" class="label">Categories</label>
-        <select multiple id="category" class="input-text">
-          <option>Category 1</option>
-          <option>Category 2</option>
-          <option>Category 3</option>
-          <option>Category 4</option>
+        <?php if (count($categories)): ?>
+        <select multiple id="category" class="input-text" name="categories[]">
+          <?php
+          foreach ($categories as $category) {
+            $children = $category->getChildren()->toArray();
+
+            if (null === $category->getParent()->getId()) {
+              $selected = in_array($category->getId(), $selectedCategories) ? 'selected' : '';
+              printf('<option %s value="%d">%s</option>', $selected, $category->getId(), $category->getName());
+            }
+
+            if (! empty($children)) {
+                foreach ($children as $categoryChildren) {
+                  $selected = in_array($categoryChildren->getId(), $selectedCategories) ? 'selected' : '';
+                  printf('<option %s value="%d">---- %s</option>', $selected, $categoryChildren->getId(), $categoryChildren->getName());
+                }
+            }
+          }
+          ?>
         </select>
+        <?php endif; ?>
       </div>
       <div class="input-field">
         <label for="description" class="label">Description</label>
-        <textarea id="description" class="input-text"></textarea>
+        <textarea id="description" class="input-text" name="description"><?php echo $entity->getDescription(); ?></textarea>
       </div>
       <div class="actions-form">
         <a href="products.html" class="action back">Back</a>
         <input class="btn-submit btn-action" type="submit" value="Save Product" />
       </div>
-      
+
     </form>
   </main>
   <!-- Main Content -->

@@ -316,4 +316,53 @@ final class ProductRepositoryTest extends AbstractTestCase
             $this->assertInstanceOf(PersistentCollection::class, $category->getChildren());
         }
     }
+
+    public function testIfDeletedAllRelatedCategoriesBeforeUpdate()
+    {
+        $entityManager = $this->entityManager;
+
+        /**
+         * First, create a product with 2 categories
+         */
+        $productEntity = new ProductEntity();
+        $productEntity->setName('FooBarProduct');
+        $productEntity->setSku('foo-123456-bar');
+        $productEntity->setPrice(1500.70);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+
+        $container                 = $this->getContainer();
+        $categoryRepositoryFactory = new CategoryRepositoryFactory();
+        $categoryRepository        = $categoryRepositoryFactory($container->reveal(), null, get_class($container->reveal()));
+
+        $categoryEntityFoo = new CategoryEntity();
+        $categoryEntityFoo->setName('Foo');
+        $categoryRepository->store($categoryEntityFoo);
+
+        $categoryEntityBar = new CategoryEntity();
+        $categoryEntityBar->setName('Bar');
+        $categoryRepository->store($categoryEntityBar);
+        unset($categoryEntityFoo, $categoryEntityBar);
+
+        $category1 = $entityManager->getReference(CategoryEntity::class, 1);
+        $productEntity->addCategory($category1);
+
+        $category2 = $entityManager->getReference(CategoryEntity::class, 2);
+        $productEntity->addCategory($category2);
+
+        $this->repository->store($productEntity);
+
+        /**
+         * Now, get the product by ID 1 and update your values, but no persist new categories
+         */
+        $product = $this->repository->find(1);
+        $product->setName('NEW NAME');
+        $product->getCategories()->clear();
+        $product->addCategory($category1);
+        $product->addCategory($category2);
+        $this->repository->store($product);
+
+        $product = $this->repository->find(1);
+        $this->assertCount(2, $product->getCategories());
+    }
 }

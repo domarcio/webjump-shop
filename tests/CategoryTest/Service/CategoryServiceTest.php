@@ -109,4 +109,21 @@ final class CategoryServiceTest extends AbstractTestCase
         $result = $this->service->deleteOne(1);
         $this->assertFalse($result);
     }
+
+    public function testFindCategoriesById()
+    {
+        $category = new CategoryEntity();
+        $category->setName('Foo');
+        $this->service->store($category);
+
+        $category = new CategoryEntity();
+        $category->setName('Bar');
+        $this->service->store($category);
+
+        $result = $this->service->findByIds([1, 2]);
+        $this->assertCount(2, $result);
+
+        $result = $this->service->findByIds([100, 200]);
+        $this->assertCount(0, $result);
+    }
 }

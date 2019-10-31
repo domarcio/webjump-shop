@@ -23,7 +23,7 @@ Nogues\Product\Entity\Product:
       nullable: false
       unique: true
     price:
-      type: decimal
+      type: float
       precision: 10
       scale: 2
       nullable: false

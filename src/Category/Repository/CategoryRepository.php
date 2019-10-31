@@ -19,7 +19,7 @@ use Nogues\Common\Repository\AbstractDoctrineRepository;
  * @package Nogues\Category\Repository
  * @author  Marcio Vinicius <marciovinicius55@gmail.com>
  */
-final class CategoryRepository extends AbstractDoctrineRepository
+final class CategoryRepository extends AbstractDoctrineRepository implements CategoryRepositoryInterface
 {
     public function __construct(EntityManager $entityManager)
     {
@@ -37,5 +37,20 @@ final class CategoryRepository extends AbstractDoctrineRepository
     public function find(int $id): EntityInterface
     {
         return parent::find($id) ?: new CategoryEntity();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findByIds(array $ids): array
+    {
+        $ids = filter_var_array($ids, FILTER_VALIDATE_INT);
+        $ids = array_filter($ids);
+        if (empty($ids)) {
+            throw new \Exception('Categories IDs are empty.');
+        }
+
+        $repository = $this->entityManager->getRepository($this->entityName);
+        return $repository->findBy(['id' => $ids]);
     }
 }

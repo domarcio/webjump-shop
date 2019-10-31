@@ -186,4 +186,18 @@ final class ProductServiceTest extends AbstractTestCase
         $result = $this->service->deleteOne(1);
         $this->assertFalse($result);
     }
+
+    public function testFindByPublicId()
+    {
+        $entity = new ProductEntity();
+        $entity->setName('FooBarProduct');
+        $entity->setSku('foo-123456-bar');
+        $entity->setPrice(1500.70);
+        $entity->setAvailableQuantity(50);
+        $entity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        $this->service->store($entity);
+
+        $find = $this->service->findByPublicId((string) $entity->getPublicId());
+        $this->assertEquals(1, $find->getId());
+    }
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Nogues\Category\Service;
 
 use Nogues\Category\Entity\Category;
-use Nogues\Category\Filter\FilterInterface;
+use Nogues\Common\Filter\FilterInterface;
 use Nogues\Common\Repository\DoctrineRepositoryInterface;
 
 final class CategoryService
@@ -64,6 +64,20 @@ final class CategoryService
     public function findById(int $id): Category
     {
         return $this->repository->find($id);
+    }
+
+    /**
+     * Find categories by IDs
+     *
+     * @param array $ids Integers ids
+     *
+     * @return array
+     *
+     * @throws \Exception Exception if array does not of integers.
+     */
+    public function findByIds(array $ids): array
+    {
+        return $this->repository->findByIds($ids);
     }
 
     /**

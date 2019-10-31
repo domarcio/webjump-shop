@@ -73,6 +73,18 @@ final class ProductService
     }
 
     /**
+     * Find one product by public (uuid) ID.
+     *
+     * @param string $publicId
+     *
+     * @return Nogues\Product\Entity\Product
+     */
+    public function findByPublicId(string $id): Product
+    {
+        return $this->repository->findByPublicId($id);
+    }
+
+    /**
      * Delete one product.
      *
      * @param int $id

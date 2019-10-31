@@ -15,7 +15,11 @@ return [
 
             // Category app factories
             Nogues\Category\Repository\CategoryRepository::class  => Nogues\Category\Repository\CategoryRepositoryFactory::class,
-            Nogues\Category\Service\CategoryService::class        => Nogues\Category\Service\CategoryServiceFactory::class
+            Nogues\Category\Service\CategoryService::class        => Nogues\Category\Service\CategoryServiceFactory::class,
+
+            // Product app factories
+            Nogues\Product\Repository\ProductRepository::class  => Nogues\Product\Repository\ProductRepositoryFactory::class,
+            Nogues\Product\Service\ProductService::class        => Nogues\Product\Service\ProductServiceFactory::class,
         ],
     ],
 ];

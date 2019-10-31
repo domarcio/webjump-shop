@@ -1,4 +1,9 @@
-
+<?php
+  $totalProducts    = count($products);
+  $welcomeMessage   = 'You have %d %s added on this store:';
+  $singularOrPlural = $totalProducts > 1 ? 'products' : 'product';
+  $welcomeMessage   = sprintf($welcomeMessage, $totalProducts, $singularOrPlural);
+?>
 <!doctype html>
 <html ⚡>
 <head>
@@ -43,8 +48,9 @@
       <h1 class="title">Dashboard</h1>
     </div>
     <div class="infor">
-      You have 4 products added on this store: <a href="addProduct.html" class="btn-action">Add new Product</a>
+      <?php echo $welcomeMessage; ?> <a href="/?handler=product&action=add" class="btn-action">Add new Product</a>
     </div>
+    <?php if ($totalProducts >= 1): ?>
     <ul class="product-list">
       <li>
         <div class="product-image">
@@ -87,6 +93,7 @@
         </div>
       </li>
     </ul>
+  <?php endif; ?>
   </main>
   <!-- Main Content -->
 
