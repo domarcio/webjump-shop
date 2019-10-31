@@ -26,4 +26,13 @@ interface ProductRepositoryInterface
      * @return Nogues\Product\Entity\Product
      */
     public function findByPublicId(string $publicId): Product;
+
+    /**
+     * Delete a Product public (uuid) ID.
+     *
+     * @param string $publicId
+     *
+     * @return boolean
+     */
+    public function deleteByPublicId(string $publicId): bool;
 }

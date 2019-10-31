@@ -22,8 +22,8 @@
   <a href="dashboard.html"><img src="images/menu-go-jumpers.png" alt="Welcome" width="200" height="43" /></a>
   <div>
     <ul>
-      <li><a href="categories.html" class="link-menu">Categorias</a></li>
-      <li><a href="products.html" class="link-menu">Produtos</a></li>
+    <li><a href="/?handler=category&action=list" class="link-menu">Categorias</a></li>
+      <li><a href="/?handler=product&action=list" class="link-menu">Produtos</a></li>
     </ul>
   </div>
 </amp-sidebar>
@@ -41,7 +41,7 @@
   <main class="content">
     <div class="header-list-page">
       <h1 class="title">Products</h1>
-      <a href="addProduct.html" class="btn-action">Add new Product</a>
+      <a href="/?handler=product&action=add" class="btn-action">Add new Product</a>
     </div>
     <table class="data-grid">
       <tr class="data-row">
@@ -65,62 +65,43 @@
             <span class="data-grid-cell-content">Actions</span>
         </th>
       </tr>
+      <?php foreach ($products as $product): ?>
       <tr class="data-row">
         <td class="data-grid-td">
-           <span class="data-grid-cell-content">Product 1 Name</span>
+           <span class="data-grid-cell-content"><?php echo $product->getName(); ?></span>
         </td>
       
         <td class="data-grid-td">
-           <span class="data-grid-cell-content">SKU1</span>
+           <span class="data-grid-cell-content"><?php echo $product->getSku(); ?></span>
         </td>
 
         <td class="data-grid-td">
-           <span class="data-grid-cell-content">R$ 19,90</span>
+           <span class="data-grid-cell-content">$ <?php echo $product->getPrice(); ?></span>
         </td>
 
         <td class="data-grid-td">
-           <span class="data-grid-cell-content">100</span>
+           <span class="data-grid-cell-content"><?php echo $product->getAvailableQuantity(); ?></span>
         </td>
 
         <td class="data-grid-td">
-           <span class="data-grid-cell-content">Category 1 <Br />Category 2</span>
+           <span class="data-grid-cell-content">
+              <?php
+              $categories = $product->getCategories();
+              foreach ($categories as $category) {
+              ?>
+                <?php echo $category->getName(); ?><br>
+              <?php } ?>
+           </span>
         </td>
       
         <td class="data-grid-td">
           <div class="actions">
-            <div class="action edit"><span>Edit</span></div>
-            <div class="action delete"><span>Delete</span></div>
+            <div class="action edit"><span><a href="/?handler=product&action=update&id=<?php echo (string) $product->getPublicId(); ?>">Edit</a></span></div>
+            <div class="action delete"><span><a href="/?handler=product&action=delete&id=<?php echo (string) $product->getPublicId(); ?>">Delete</a></span></div>
           </div>
         </td>
       </tr>
-      <tr class="data-row">
-        <td class="data-grid-td">
-           <span class="data-grid-cell-content">Product 2 Name</span>
-        </td>
-      
-        <td class="data-grid-td">
-           <span class="data-grid-cell-content">SKU2</span>
-        </td>
-
-        <td class="data-grid-td">
-           <span class="data-grid-cell-content">R$ 59,90</span>
-        </td>
-
-        <td class="data-grid-td">
-           <span class="data-grid-cell-content">999</span>
-        </td>
-
-        <td class="data-grid-td">
-           <span class="data-grid-cell-content">Category 1</span>
-        </td>
-      
-        <td class="data-grid-td">
-          <div class="actions">
-            <div class="action edit"><span>Edit</span></div>
-            <div class="action delete"><span>Delete</span></div>
-          </div>
-        </td>
-      </tr>
+      <?php endforeach; ?>
     </table>
   </main>
   <!-- Main Content -->

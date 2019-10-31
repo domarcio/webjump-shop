@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Nogues\Category\Service;
 
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Nogues\Category\Entity\Category;
 use Nogues\Common\Filter\FilterInterface;
 use Nogues\Common\Repository\DoctrineRepositoryInterface;
@@ -94,6 +95,12 @@ final class CategoryService
             return false;
         }
 
-        return $this->repository->delete($id);
+        try {
+            return $this->repository->delete($id);
+        } catch (ForeignKeyConstraintViolationException $e) {
+            // Do nothing
+        }
+
+        return false;
     }
 }

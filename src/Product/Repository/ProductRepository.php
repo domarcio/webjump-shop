@@ -27,16 +27,23 @@ final class ProductRepository extends AbstractDoctrineRepository implements Prod
     }
 
     /**
-     * Find one product by public (uuid) ID.
-     *
-     * @param string $publicId
-     *
-     * @return Nogues\Product\Entity\Product
+     * @inheritDoc
      */
     public function findByPublicId(string $publicId): Product
     {
         $repository = $this->entityManager->getRepository($this->entityName);
         $entity     = $repository->findOneBy(['publicId' => $publicId]);
         return $entity ?: new Product();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteByPublicId(string $publicId): bool
+    {
+        $repository = $this->entityManager->getRepository($this->entityName);
+        $entity     = $repository->findOneBy(['publicId' => $publicId]);
+
+        return $this->delete($entity->getId());
     }
 }

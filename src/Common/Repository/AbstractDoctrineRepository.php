@@ -94,8 +94,12 @@ abstract class AbstractDoctrineRepository implements DoctrineRepositoryInterface
         $em = $this->entityManager;
         $entityState = 0;
 
+        $entity = $this->find($id);
+        if (null === $entity->getId()) {
+            return false;
+        }
+
         try {
-            $entity = $em->getReference($this->entityName, $id);
             $em->remove($entity);
 
             $entityState = $em->getUnitOfWork()->getEntityState($entity);

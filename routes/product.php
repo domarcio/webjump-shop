@@ -11,6 +11,12 @@ use Nogues\Product\Entity\Product;
 $productService  = $container->get(Nogues\Product\Service\ProductService::class);
 $categoryService = $container->get(Nogues\Category\Service\CategoryService::class);
 
+if ('list' === $action) {
+    $products = $productService->findAll();
+
+    require 'template/products.php';
+}
+
 if ('add' === $action) {
     $categories = $categoryService->findAll();
     $entity     = new Product();
@@ -38,6 +44,7 @@ if ('add' === $action) {
         $productService->store($product);
         header('Location: /?' . $_SERVER['QUERY_STRING']);
     }
+    $notifications = $productService->getNotification();
 
     require 'template/addProduct.php';
 }
@@ -92,4 +99,11 @@ if ('update' === $action) {
     $notifications = $productService->getNotification();
 
     require 'template/addProduct.php';
+}
+
+if ('delete' === $action && $publicId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING)) {
+    $productService->deleteOneByPublicId($publicId);
+
+    header('Location: /?handler=product&action=list');
+    exit;
 }

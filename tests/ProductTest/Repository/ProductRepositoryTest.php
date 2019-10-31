@@ -170,8 +170,24 @@ final class ProductRepositoryTest extends AbstractTestCase
         $this->repository->store($productEntity);
 
         $result = $this->repository->delete(1);
-
         $this->assertTrue($result);
+
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Bar');
+        $productEntity->setSku('bar-123456-foo');
+        $productEntity->setPrice(1500.00);
+        $productEntity->setAvailableQuantity(100);
+        $productEntity->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        $this->repository->store($productEntity);
+
+        $result = $this->repository->deleteByPublicId((string) $productEntity->getPublicId());
+        $this->assertTrue($result);
+    }
+
+    public function testIfDeletedUnsuccessfully()
+    {
+        $result = $this->repository->delete(99);
+        $this->assertFalse($result);
     }
 
     public function testCreatedWithManyCategoriesSuccessfully()

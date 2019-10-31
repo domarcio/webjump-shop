@@ -123,11 +123,18 @@ final class ProductService
      */
     public function deleteOne(int $id): bool
     {
-        $entity = $this->findById($id);
-        if (null === $entity->getId()) {
-            return false;
-        }
-
         return $this->repository->delete($id);
+    }
+
+    /**
+     * Delete one product by public id.
+     *
+     * @param string $publicId
+     *
+     * @return boolean
+     */
+    public function deleteOneByPublicId(string $publicId): bool
+    {
+        return $this->repository->deleteByPublicId($publicId);
     }
 }
