@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Nogues\Category\Filter;
+namespace Nogues\Common\Filter;
 
 interface FilterInterface
 {

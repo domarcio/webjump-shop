@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Nogues\Category\Filter;
 
+use Nogues\Common\Filter\FilterInterface;
 use Zend\Filter\{StringTrim, StripTags};
 use Zend\InputFilter\{InputFilter, Input};
 use Zend\Validator\NotEmpty;
