@@ -52,46 +52,17 @@
     </div>
     <?php if ($totalProducts >= 1): ?>
     <ul class="product-list">
+      <?php foreach ($products as $product): ?>
       <li>
         <div class="product-image">
-          <img src="images/product/tenis-runner-bolt.png" layout="responsive" width="164" height="145" alt="Tênis Runner Bolt" />
+          <img src="images/product/tenis-runner-bolt.png" layout="responsive" width="164" height="145" alt="<?php echo $product->getName(); ?>" />
         </div>
         <div class="product-info">
-          <div class="product-name"><span>Tênis Runner Bolt</span></div>
-          <div class="product-price"><span class="special-price">9 available</span> <span>R$459,99</span></div>
+          <div class="product-name"><span><?php echo $product->getName(); ?></span></div>
+          <div class="product-price"><span class="special-price"><?php echo $product->getAvailableQuantity(); ?> available</span> $<span><?php echo $product->getPrice(); ?></span></div>
         </div>
       </li>
-      <li>
-        <div class="product-image">
-          <a href="tenis-basket-light.html" title="Tênis Basket Light">
-            <img src="images/product/tenis-basket-light.png" layout="responsive" width="164" height="145" alt="Tênis Basket Light" />
-          </a>
-        </div>
-        <div class="product-info">
-          <div class="product-name"><span>Tênis Basket Light</span></div>
-          <div class="product-price"><span class="special-price">1 available</span> <span>R$459,99</span></div>
-        </div>
-      </li>
-      <li>
-        <div class="product-image">
-          <a href="tenis-basket-light.html" title="Tênis Basket Light">
-           <img src="images/product/tenis-2d-shoes.png" layout="responsive" width="164" height="145" alt="Tênis 2D Shoes" />
-          </a>
-        </div>
-        <div class="product-info">
-          <div class="product-name"><span>Tênis 2D Shoes</span></div>
-          <div class="product-price"><span class="special-price">2 Available</span> <span>R$459,99</span></div>
-        </div>
-      </li>
-      <li>
-        <div class="product-image">
-          <img src="images/product/tenis-sneakers-43n.png" layout="responsive" width="164" height="145" alt="Tênis Sneakers 43N" />
-        </div>
-        <div class="product-info">
-          <div class="product-name"><span>Tênis Sneakers 43N</span></div>
-          <div class="product-price"><span class="special-price">Out of stock</span> <span>R$459,99</span></div>
-        </div>
-      </li>
+      <?php endforeach; ?>
     </ul>
   <?php endif; ?>
   </main>
