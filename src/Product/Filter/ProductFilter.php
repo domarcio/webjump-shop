@@ -11,7 +11,7 @@ namespace Nogues\Product\Filter;
 use Nogues\Common\Filter\FilterInterface;
 use Zend\Filter\{StringTrim, StripTags, ToFloat, ToInt};
 use Zend\InputFilter\{InputFilter, Input};
-use Zend\Validator\NotEmpty;
+use Zend\Validator\{Between, NotEmpty};
 
 final class ProductFilter implements FilterInterface
 {
@@ -59,48 +59,64 @@ final class ProductFilter implements FilterInterface
 
     private function filterName()
     {
+        $notEmpty = new NotEmpty();
+        $notEmpty->setMessage('Name is required.', NotEmpty::IS_EMPTY);
+
         $inputFilter = new Input('name');
         $inputFilter->getFilterChain()
             ->attach(new StripTags())
             ->attach(new StringTrim());
         $inputFilter->getValidatorChain()
-                ->attach(new NotEmpty());
+            ->attach($notEmpty);
 
         return $inputFilter;
     }
 
     private function filterSku()
     {
+        $notEmpty = new NotEmpty();
+        $notEmpty->setMessage('SKU is required.', NotEmpty::IS_EMPTY);
+
         $inputFilter = new Input('sku');
         $inputFilter->getFilterChain()
             ->attach(new StripTags())
             ->attach(new StringTrim());
         $inputFilter->getValidatorChain()
-                ->attach(new NotEmpty());
+            ->attach($notEmpty);
 
         return $inputFilter;
     }
 
     private function filterPrice()
     {
+        $notEmpty = new NotEmpty(NotEmpty::FLOAT);
+        $notEmpty->setMessage('Price is required.', NotEmpty::IS_EMPTY);
+
         $inputFilter = new Input('price');
         $inputFilter->getFilterChain()
             ->attach(new StringTrim())
             ->attach(new ToFloat());
         $inputFilter->getValidatorChain()
-                ->attach(new NotEmpty(NotEmpty::FLOAT));
+            ->attach($notEmpty);
 
         return $inputFilter;
     }
 
     private function filterAvailableQuantity()
     {
+        $notEmpty = new NotEmpty(NotEmpty::INTEGER);
+        $notEmpty->setMessage('Quantity is required.', NotEmpty::IS_EMPTY);
+
+        $between = new Between(['min' => 1, 'max' => 1000]);
+        $between->setMessage("The quantity is not between '%min%' and '%max%', inclusively.", Between::NOT_BETWEEN);
+
         $inputFilter = new Input('available_quantity');
         $inputFilter->getFilterChain()
             ->attach(new StringTrim())
             ->attach(new ToInt());
         $inputFilter->getValidatorChain()
-                ->attach(new NotEmpty(NotEmpty::INTEGER));
+            ->attach($notEmpty)
+            ->attach($between);
 
         return $inputFilter;
     }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Nogues\Product\Service;
 
 use Doctrine\ORM\EntityManager;
+use Nogues\Common\Notification;
 use Nogues\Product\Filter\ProductFilter;
 use Nogues\Product\Repository\ProductRepository;
 use Psr\Container\ContainerInterface;
@@ -26,7 +27,8 @@ final class ProductServiceFactory
         $entityManager = $container->get(EntityManager::class);
         $repository    = new ProductRepository($entityManager);
         $filter        = new ProductFilter();
+        $notification  = new Notification();
 
-        return new ProductService($repository, $filter);
+        return new ProductService($repository, $filter, $notification);
     }
 }

@@ -38,7 +38,25 @@
 <!-- Header -->
   <!-- Main Content -->
   <main class="content">
-    <h1 class="title new-item">New Product</h1>
+    <h1 class="title new-item">
+      <?php
+      if (null === $entity->getId()) {
+        echo 'New Product';
+      } else {
+        echo 'Update ' . $entity->getName() . ' Product';
+      }
+      ?>
+    </h1>
+
+    <ul>
+    <?php
+    $notifications = $notifications->getNotifications();
+    foreach ($notifications as $notification):
+      $currentMessage = current($notification);
+    ?>
+      <li><?php echo $currentMessage; ?></li>
+    <?php endforeach; ?>
+    </ul>
 
     <form action="" method="POST">
       <div class="input-field">
@@ -86,7 +104,7 @@
         <textarea id="description" class="input-text" name="description"><?php echo $entity->getDescription(); ?></textarea>
       </div>
       <div class="actions-form">
-        <a href="products.html" class="action back">Back</a>
+        <a href="/" class="action back">Back</a>
         <input class="btn-submit btn-action" type="submit" value="Save Product" />
       </div>
 

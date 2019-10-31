@@ -46,10 +46,10 @@ Nogues\Product\Entity\Product:
       joinTable:
         name: related_category
         joinColumns:
-          category_id:
+          related_id:
             referencedColumnName: id
         inverseJoinColumns:
-          related_id:
+          category_id:
             referencedColumnName: id
   lifecycleCallbacks:
     prePersist: [ updatedTimestamps ]

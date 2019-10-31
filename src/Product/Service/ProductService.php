@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Nogues\Product\Service;
 
 use Nogues\Common\Filter\FilterInterface;
+use Nogues\Common\Notification;
 use Nogues\Product\Entity\Product;
 use Nogues\Common\Repository\DoctrineRepositoryInterface;
 
@@ -28,12 +29,27 @@ final class ProductService
      */
     private $filter;
 
-    public function __construct(DoctrineRepositoryInterface $repository, FilterInterface $filter)
+    /**
+     * Notifications of service.
+     *
+     * @var Nogues\Common\Notification
+     */
+    private $notification;
+
+    public function __construct(DoctrineRepositoryInterface $repository, FilterInterface $filter, Notification $notification)
     {
-        $this->repository = $repository;
-        $this->filter     = $filter;
+        $this->repository   = $repository;
+        $this->filter       = $filter;
+        $this->notification = $notification;
     }
 
+    /**
+     * Create or update a Product.
+     *
+     * @param Product $entity
+     *
+     * @return int
+     */
     public function store(Product $entity): bool
     {
         $this->filter->setData([
@@ -43,11 +59,25 @@ final class ProductService
             'available_quantity' => $entity->getAvailableQuantity(),
         ]);
 
-        if (! $this->filter->isValid()) {
-            return false;
+        if ($this->filter->isValid()) {
+            return $this->repository->store($entity) > 0;
         }
 
-        return $this->repository->store($entity) > 0;
+        foreach ($this->filter->getMessages() as $message) {
+            $this->notification->add($message);
+        }
+
+        return false;
+    }
+
+    /**
+     * Get notification.
+     *
+     * @return Nogues\Common\Notification
+     */
+    public function getNotification(): \Nogues\Common\Notification
+    {
+        return $this->notification;
     }
 
     /**

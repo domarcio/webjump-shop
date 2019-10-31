@@ -13,6 +13,7 @@ $categoryService = $container->get(Nogues\Category\Service\CategoryService::clas
 
 if ('add' === $action) {
     $categories = $categoryService->findAll();
+    $entity     = new Product();
 
     if ('POST' === $_SERVER['REQUEST_METHOD']) {
         $sku         = filter_input(INPUT_POST, 'sku', FILTER_SANITIZE_STRING);
@@ -64,11 +65,11 @@ if ('update' === $action) {
         $quantity    = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
         $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
 
-        $entity->setSku($sku);
-        $entity->setName($name);
-        $entity->setPrice($price);
-        $entity->setAvailableQuantity($quantity);
-        $entity->setDescription($description);
+        $entity->setSku($sku ?: '');
+        $entity->setName($name ?: '');
+        $entity->setPrice($price ?: 0.0);
+        $entity->setAvailableQuantity($quantity ?: 0);
+        $entity->setDescription($description ?: '');
 
         if (null !== ($entityCategories = $entity->getCategories())) {
             $entityCategories->clear();
@@ -82,9 +83,13 @@ if ('update' === $action) {
             $entity->addCategory($category);
         }
 
-        $productService->store($entity);
-        header('Location: /?' . $_SERVER['QUERY_STRING']);
+        $result = $productService->store($entity);
+        if ($result) {
+            header('Location: /?' . $_SERVER['QUERY_STRING']);
+            exit;
+        }
     }
+    $notifications = $productService->getNotification();
 
     require 'template/addProduct.php';
 }
