@@ -43,7 +43,6 @@ Nogues\Product\Entity\Product:
   manyToMany:
     categories:
       targetEntity: Nogues\Category\Entity\Category
-      cascade: ["persist", "remove"]
       joinTable:
         name: related_category
         joinColumns:

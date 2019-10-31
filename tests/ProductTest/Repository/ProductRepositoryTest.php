@@ -26,7 +26,7 @@ final class ProductRepositoryTest extends AbstractTestCase
         $container  = $this->getContainer();
         $factory    = new ProductRepositoryFactory();
 
-        $entityManager = $container->reveal()->get(EntityManager::class);
+        $entityManager = $this->entityManager;
 
         $classes = $entityManager->getMetadataFactory()->getAllMetadata();
         (new SchemaTool($entityManager))->createSchema($classes);
@@ -38,8 +38,7 @@ final class ProductRepositoryTest extends AbstractTestCase
 
     protected function tearDown()
     {
-        $container     = $this->getContainer();
-        $entityManager = $container->reveal()->get(EntityManager::class);
+        $entityManager = $this->entityManager;
         if ($cache = $entityManager->getCache()) {
             $cache->deleteAll();
         }
@@ -49,7 +48,7 @@ final class ProductRepositoryTest extends AbstractTestCase
 
         parent::tearDown();
     }
-    /*
+
     public function testIfCreatedSuccessfully()
     {
         $productEntity = new ProductEntity();
@@ -177,6 +176,7 @@ final class ProductRepositoryTest extends AbstractTestCase
 
     public function testCreatedWithManyCategoriesSuccessfully()
     {
+        $entityManager = $this->entityManager;
         $productEntity = new ProductEntity();
         $productEntity->setName('Foo');
         $productEntity->setSku('foo-123456-bar');
@@ -193,13 +193,19 @@ final class ProductRepositoryTest extends AbstractTestCase
         $categoryEntityFoo = new CategoryEntity();
         $categoryEntityFoo->setName('Foo');
         $categoryRepository->store($categoryEntityFoo);
-        $productEntity->addCategory($categoryEntityFoo);
+        unset($categoryEntityFoo);
+
+        $category = $entityManager->getReference(CategoryEntity::class, 1);
+        $productEntity->addCategory($category);
 
         // Add category `Bar` to Product
         $categoryEntityBar = new CategoryEntity();
         $categoryEntityBar->setName('Bar');
         $categoryRepository->store($categoryEntityBar);
-        $productEntity->addCategory($categoryEntityBar);
+        unset($categoryEntityBar);
+
+        $category = $entityManager->getReference(CategoryEntity::class, 2);
+        $productEntity->addCategory($category);
 
         // Save product with categories
         $result = $this->repository->store($productEntity);
@@ -218,6 +224,7 @@ final class ProductRepositoryTest extends AbstractTestCase
 
     public function testCreatedManyCategoriesWithParentCategorySuccessfully()
     {
+        $entityManager = $this->entityManager;
         $productEntity = new ProductEntity();
         $productEntity->setName('Foo');
         $productEntity->setSku('foo-123456-bar');
@@ -239,8 +246,10 @@ final class ProductRepositoryTest extends AbstractTestCase
         $categoryEntityBar->setName('Bar');
         $categoryEntityBar->setParent($categoryEntityFoo);
         $categoryRepository->store($categoryEntityBar);
+        unset($categoryEntityBar, $categoryEntityFoo);
 
-        $productEntity->addCategory($categoryEntityBar);
+        $category = $entityManager->getReference(CategoryEntity::class, 2);
+        $productEntity->addCategory($category);
 
         // Save product with category
         $result = $this->repository->store($productEntity);
@@ -259,10 +268,10 @@ final class ProductRepositoryTest extends AbstractTestCase
             $this->assertInstanceOf(CategoryEntity::class, $category->getParent());
         }
     }
-    */
 
     public function testCreatedManyCategoriesWithChildrenCategorySuccessfully()
     {
+        $entityManager = $this->entityManager;
         $productEntity = new ProductEntity();
         $productEntity->setName('FooBarProduct');
         $productEntity->setSku('foo-123456-bar');
@@ -287,7 +296,7 @@ final class ProductRepositoryTest extends AbstractTestCase
         unset($categoryEntityFoo, $categoryEntityBar);
 
         // Add to product the Category that does not a parent, but it's a parent of another category (Bar)
-        $category = $categoryRepository->find(1);
+        $category = $entityManager->getReference(CategoryEntity::class, 1);
         $productEntity->addCategory($category);
 
         // Save product with category
@@ -298,8 +307,7 @@ final class ProductRepositoryTest extends AbstractTestCase
         unset($productEntity);
         $productEntity = $this->repository->find(1);
         $categoriesProduct = $productEntity->getCategories();
-var_dump( count($categoryRepository->findAll()) );
-        /*
+
         foreach ($categoriesProduct as $category) {
             $this->assertInstanceOf(CategoryEntity::class, $category);
             $this->assertTrue(is_int($category->getId()));
@@ -307,6 +315,5 @@ var_dump( count($categoryRepository->findAll()) );
             // Test children
             $this->assertInstanceOf(PersistentCollection::class, $category->getChildren());
         }
-        */
     }
 }

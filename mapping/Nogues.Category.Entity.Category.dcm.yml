@@ -22,5 +22,4 @@ Nogues\Category\Entity\Category:
   manyToOne:
     parent:
       targetEntity: Nogues\Category\Entity\Category
-      cascade: ["persist"]
       inversedBy: children

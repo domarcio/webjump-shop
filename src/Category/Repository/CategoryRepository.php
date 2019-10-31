@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Nogues\Category\Repository;
 
-use \Exception;
-
 use Doctrine\ORM\EntityManager;
 use Nogues\Category\Entity\Category as CategoryEntity;
 use Nogues\Common\Entity\EntityInterface;

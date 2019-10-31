@@ -21,6 +21,8 @@ use Ramsey\Uuid\Doctrine\UuidType;
 
 abstract class AbstractTestCase extends TestCase
 {
+    protected $entityManager;
+
     protected function getContainer()
     {
         // Doctrine ORM
@@ -56,11 +58,13 @@ abstract class AbstractTestCase extends TestCase
             Type::addType($uuidTypeName, UuidType::class);
             $entityManager->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping($uuidTypeName, $uuidTypeName);
         }
+        
+        $this->entityManager = $entityManager;
 
         $container = $this->prophesize(ContainerInterface::class);
         $container
             ->get(EntityManager::class)
-            ->willReturn($entityManager);
+            ->willReturn($this->entityManager);
 
         return $container;
     }
