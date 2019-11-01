@@ -1,4 +1,4 @@
-language: generic
+language: php
 sudo: required
 
 before_install:
@@ -14,7 +14,8 @@ before_script:
   - docker version
 
 script:
-  - ./test.sh
+  - composer update
+  - docker-compose run --user $(id -u):$(id -g) nogues-php
 
 addons:
   apt:
