@@ -1,4 +1,4 @@
-# Web Jump - Shop
+# WEBJUMP - Shop
 
 Esse é um projeto classificatório para atuar como Desenvolvedor **Magento PHP** na [WEBJUMP](https://webjump.com.br/).
 
