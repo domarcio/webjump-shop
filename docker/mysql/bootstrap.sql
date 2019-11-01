@@ -23,6 +23,7 @@ CREATE TABLE shop.category (
     `name` VARCHAR(255) NOT NULL,
     parent_id INT(11) DEFAULT NULL,
     INDEX parent_id_idx (parent_id),
+    INDEX name_idx (`name`),
     FOREIGN KEY (parent_id) REFERENCES category (id)
 ) ENGINE=InnoDB;
 

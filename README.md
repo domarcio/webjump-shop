@@ -8,6 +8,7 @@ docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) 
 docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) composer require zendframework/zend-servicemanager
 docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) composer require zendframework/zend-inputfilter
 docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) composer require ramsey/uuid-doctrine
+docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) composer require symfony/console ^4
 
 docker-compose run --user $(id -u):$(id -g) nogues-php ./vendor/phpunit/phpunit/phpunit --stop-on-failure
 

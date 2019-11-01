@@ -18,7 +18,7 @@
       <img src="images/bt-close.png" alt="Close Menu" width="24" height="24" />
     </a>
   </div>
-  <a href="dashboard.html"><img src="images/menu-go-jumpers.png" alt="Welcome" width="200" height="43" /></a>
+  <a href="/"><img src="images/menu-go-jumpers.png" alt="Welcome" width="200" height="43" /></a>
   <div>
     <ul>
       <li><a href="/?handler=category&action=list" class="link-menu">Categorias</a></li>
@@ -29,7 +29,7 @@
 <header>
   <div class="go-menu">
     <a on="tap:sidebar.toggle">☰</a>
-    <a href="dashboard.html" class="link-logo"><img src="images/go-logo.png" alt="Welcome" width="69" height="430" /></a>
+    <a href="/" class="link-logo"><img src="images/go-logo.png" alt="Welcome" width="69" height="430" /></a>
   </div>
   <div class="right-box">
     <span class="go-title">Administration Panel</span>

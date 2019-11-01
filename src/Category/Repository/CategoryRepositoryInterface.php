@@ -26,4 +26,15 @@ interface CategoryRepositoryInterface
      * @throws \Exception Exception if array does not of integers.
      */
     public function findByIds(array $ids): array;
+
+    /**
+     * Find categories by names
+     *
+     * @param array $names
+     *
+     * @return array
+     *
+     * @throws \Exception Exception if array does not of strings.
+     */
+    public function findByNames(array $names): array;
 }

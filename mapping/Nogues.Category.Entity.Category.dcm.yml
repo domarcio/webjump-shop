@@ -5,6 +5,8 @@ Nogues\Category\Entity\Category:
   indexes:
     parent_id_idx:
       columns: [ parent_id ]
+    name_idx:
+      columns: [ name ]
   id:
     id:
       type: integer

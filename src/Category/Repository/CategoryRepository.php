@@ -53,4 +53,21 @@ final class CategoryRepository extends AbstractDoctrineRepository implements Cat
         $repository = $this->entityManager->getRepository($this->entityName);
         return $repository->findBy(['id' => $ids]);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findByNames(array $names): array
+    {
+        $names = array_filter($names, function ($value) {
+            return is_string($value);
+        });
+
+        if (empty($names)) {
+            throw new \Exception('Names are empty.');
+        }
+
+        $repository = $this->entityManager->getRepository($this->entityName);
+        return $repository->findBy(['name' => $names]);
+    }
 }

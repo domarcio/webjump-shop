@@ -27,7 +27,7 @@ if ('add' === $action) {
         $price       = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
         $quantity    = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
         $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
-        $categories  = $_POST['categories'];
+        $categories  = $_POST['categories'] ?? [];
 
         $product = new Product();
         $product->setSku($sku);
@@ -36,7 +36,9 @@ if ('add' === $action) {
         $product->setAvailableQuantity($quantity);
         $product->setDescription($description);
 
-        $categories = $categoryService->findByIds($categories);
+        if (! empty($categories)) {
+            $categories = $categoryService->findByIds($categories);
+        }
         foreach ($categories as $category) {
             $product->addCategory($category);
         }

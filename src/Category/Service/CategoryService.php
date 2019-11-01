@@ -82,6 +82,20 @@ final class CategoryService
     }
 
     /**
+     * Find categories by names
+     *
+     * @param array $names
+     *
+     * @return array
+     *
+     * @throws \Exception Exception if array does not of strings.
+     */
+    public function findByNames(array $names): array
+    {
+        return $this->repository->findByNames($names);
+    }
+
+    /**
      * Delete one category.
      *
      * @param int $id

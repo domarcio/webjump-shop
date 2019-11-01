@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1e168c2c187af6ea5aa4ecce0a4fbd5",
+    "content-hash": "807b4a4d1eabaaeec98b551d4f9d7067",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -1175,12 +1175,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "3dc050a9adab0081c8cd76c1b3274ed6d7b21a03"
+                "reference": "da3678e12c62d479777653e44653bf4e923fe7c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/3dc050a9adab0081c8cd76c1b3274ed6d7b21a03",
-                "reference": "3dc050a9adab0081c8cd76c1b3274ed6d7b21a03",
+                "url": "https://api.github.com/repos/symfony/console/zipball/da3678e12c62d479777653e44653bf4e923fe7c2",
+                "reference": "da3678e12c62d479777653e44653bf4e923fe7c2",
                 "shasum": ""
             },
             "require": {
@@ -1243,7 +1243,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-12T00:35:04+00:00"
+            "time": "2019-10-30T13:23:44+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

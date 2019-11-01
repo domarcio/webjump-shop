@@ -192,4 +192,30 @@ final class CategoryRepositoryTest extends AbstractTestCase
         $this->expectExceptionMessage('Categories IDs are empty.');
         $this->repository->findByIds(['foo', 'bar']);
     }
+
+    public function testFindCategoriesByNames()
+    {
+        $category = new CategoryEntity();
+        $category->setName('Foo');
+        $this->repository->store($category);
+
+        $category = new CategoryEntity();
+        $category->setName('Bar');
+        $this->repository->store($category);
+
+        $categories = $this->repository->findByNames(['Foo', 'Bar']);
+        $this->assertCount(2, $categories);
+
+        unset($category);
+        foreach ($categories as $category) {
+            $this->assertInstanceOf(CategoryEntity::class, $category);
+        }
+    }
+
+    public function testThrowExceptionWhenCategoriesNotFoundByNames()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Names are empty.');
+        $this->repository->findByNames([1, 2]);
+    }
 }
