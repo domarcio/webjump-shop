@@ -17,4 +17,4 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-script: echo 1
+script: docker-compose --version && docker-compose up -d
