@@ -1,3 +1,3 @@
 # Mapping
 
-Directory with all Doctrine YAML Mapping of the Entities.
+Diretório com as entidades mapeadas para o Doctrine.
