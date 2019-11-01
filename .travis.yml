@@ -1,16 +1,19 @@
-language: generic
+sudo: required
+
+before_install:
+  - ./.travis-update-docker-compose
 
 services:
   - docker
+
+before_script:
+  - docker-compose build
+  - docker version
+
+script:
+  - ./test.sh
 
 addons:
   apt:
     packages:
       - docker-ce
-
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - sudo curl -L https://github.com/docker/compose/releases/download/1.24.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-  - sudo chmod +x /usr/local/bin/docker-compose
-
-script: docker-compose --version
