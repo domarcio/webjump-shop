@@ -4,7 +4,6 @@ sudo: required
 before_install:
   - curl -L https://github.com/docker/compose/releases/download/1.24.2/docker-compose-`uname -s`-`uname -m` > mktemp
   - chmod 755 mktemp
-  - sudo rm docker-compose
   - sudo mv mktemp docker-compose
 
 services:
