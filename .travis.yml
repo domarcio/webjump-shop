@@ -2,7 +2,10 @@ language: generic
 sudo: required
 
 before_install:
-  - sudo ./travis-update-docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.24.2/docker-compose-`uname -s`-`uname -m` > mktemp
+  - chmod 755 mktemp
+  - sudo rm /usr/local/bin/docker-compose
+  - sudo mv mktemp /usr/local/bin/docker-compose
 
 services:
   - docker
