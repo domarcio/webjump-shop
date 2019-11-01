@@ -15,7 +15,7 @@ before_script:
 
 script:
   - composer update
-  - docker-compose run --user $(id -u):$(id -g) nogues-php
+  - docker-compose run --user $(id -u):$(id -g) nogues-php ./vendor/phpunit/phpunit/phpunit
 
 addons:
   apt:
