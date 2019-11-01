@@ -1,7 +1,8 @@
+language: generic
 sudo: required
 
 before_install:
-  - ./.travis-update-docker-compose
+  - sudo ./.travis-update-docker-compose
 
 services:
   - docker
