@@ -76,7 +76,7 @@ Os principais componentes open-source usados foram:
 
 Ou seja:
 
-* Uma **Entity** é o objeto que manipulamos. No nosso cenário, a **Entity** representa o dados que persitiremos.
+* Uma **Entity** é o objeto que manipulamos. No nosso cenário, a **Entity** representa o dado que persitiremos.
 * Cada **Entity** tem um **Repository** para manipular seus dados, ex: Criar categorias, deletar produtos, etc.
 * Para separar (ainda) mais as responsabilidades é criado um **Service** que sabe trabalhar com alguma coisa, ex: Um serviço sabe validar um dado que vem de um formulário e salvar essa dado no **Repository**.
 * É usado o conceito de *Dependecy Injection* para criar um **Service**, ou seja, é delegado para ele quais informações são necessárias para que ele consiga manipular um dado.
